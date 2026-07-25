@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trendly — Premium Fashion Store India</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <button class="hamburger" id="hamburgerBtn" title="Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <div class="logo"><i class="fa-solid fa-fire"></i> Trendly</div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search outfits..." />
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <div class="nav-icons">
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+      <button class="icon-btn" id="userBtn" title="Account">
+        <i class="fa-solid fa-user"></i>
+      </button>
+      <button class="icon-btn cart-btn" id="cartBtn" title="Cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ SIDE MENU ============ -->
+  <div class="side-menu" id="sideMenu">
+    <div class="side-menu-header">
+      <div class="side-menu-logo"><i class="fa-solid fa-fire"></i> Trendly</div>
+      <button class="close-side-menu" id="closeSideMenu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- User Profile (shown when logged in) -->
+    <div class="side-menu-profile" id="sideMenuProfile" style="display:none;">
+      <div class="profile-avatar" id="profileAvatar">D</div>
+      <div class="profile-info">
+        <h4 id="profileName">Guest User</h4>
+        <p id="profileEmail">Login to continue</p>
+      </div>
+    </div>
+
+    <div class="side-menu-content">
+      <!-- SHOP SECTION -->
+      <div class="menu-section">
+        <div class="menu-title">SHOP</div>
+        <a href="#" class="menu-item" onclick="filterAndShow('all');closeSideMenu();return false;">
+          <i class="fa-solid fa-store"></i> All Products
+        </a>
+        <a href="#" class="menu-item" onclick="filterAndShow('women');closeSideMenu();return false;">
+          <i class="fa-solid fa-venus"></i> Women
+        </a>
+        <a href="#" class="menu-item" onclick="filterAndShow('men');closeSideMenu();return false;">
+          <i class="fa-solid fa-mars"></i> Men
+        </a>
+        <a href="#" class="menu-item" onclick="filterAndShow('trending');closeSideMenu();return false;">
+          <i class="fa-solid fa-fire"></i> Trending
+        </a>
+        <a href="#" class="menu-item" onclick="filterAndShow('new');closeSideMenu();return false;">
+          <i class="fa-solid fa-sparkles"></i> New Arrivals
+        </a>
+      </div>
+
+      <!-- ACCOUNT SECTION -->
+      <div class="menu-section">
+        <div class="menu-title">MY ACCOUNT</div>
+        <a href="#" class="menu-item" onclick="openAuth();closeSideMenu();return false;">
+          <i class="fa-solid fa-user"></i> Login / Register
+        </a>
+        <a href="#" class="menu-item" onclick="openOrders();closeSideMenu();return false;">
+          <i class="fa-solid fa-box"></i> My Orders
+        </a>
+        <a href="#" class="menu-item" onclick="openAddresses();closeSideMenu();return false;">
+          <i class="fa-solid fa-location-dot"></i> My Addresses
+        </a>
+      </div>
+
+      <!-- SUPPORT SECTION -->
+      <div class="menu-section">
+        <div class="menu-title">SUPPORT</div>
+        <a href="#" class="menu-item" onclick="showPage('help');closeSideMenu();return false;">
+          <i class="fa-solid fa-circle-question"></i> Help Center
+        </a>
+        <a href="#" class="menu-item" onclick="showPage('contact');closeSideMenu();return false;">
+          <i class="fa-solid fa-envelope"></i> Contact Us
+        </a>
+        <a href="#" class="menu-item" onclick="showPage('about');closeSideMenu();return false;">
+          <i class="fa-solid fa-circle-info"></i> About Us
+        </a>
+        <a href="#" class="menu-item" onclick="showPage('faq');closeSideMenu();return false;">
+          <i class="fa-solid fa-question"></i> FAQ
+        </a>
+      </div>
+
+      <!-- SETTINGS SECTION -->
+      <div class="menu-section">
+        <div class="menu-title">SETTINGS</div>
+        <div class="menu-item theme-switch-item">
+          <i class="fa-solid fa-moon"></i>
+          <span>Dark Mode</span>
+          <label class="switch" style="margin-left:auto;">
+            <input type="checkbox" id="sideThemeToggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <a href="#" class="menu-item" id="logoutBtn" onclick="handleLogout();return false;" style="display:none;">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+      </div>
+    </div>
+
+    <div class="side-menu-footer">
+      <p>© 2026 Trendly</p>
+      <p>Made with <i class="fa-solid fa-heart"></i> in India 🇮🇳</p>
+    </div>
+  </div>
+
+  <!-- ============ PAGE NAV ============ -->
+  <div class="page-nav" id="pageNav" style="display:none;">
+    <button class="back-btn" onclick="showHomePage()">
+      <i class="fa-solid fa-arrow-left"></i> Back to Shop
+    </button>
+    <div class="page-title" id="pageTitle"></div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Summer 2026 <span>Drops</span></h1>
+      <p>Curated trending outfits for men & women. Fresh styles, bold looks.</p>
+      <button class="cta-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+        Shop Now <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="women">Women</button>
+    <button class="filter-btn" data-filter="men">Men</button>
+    <button class="filter-btn" data-filter="trending">🔥 Trending</button>
+    <button class="filter-btn" data-filter="new">✨ New Arrivals</button>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- ============ ABOUT US PAGE ============ -->
+  <section class="page-section" id="aboutPage" style="display:none;">
+    <div class="about-hero">
+      <h1>Our Story</h1>
+      <p class="tagline">Crafting fashion, creating confidence since 2020</p>
+    </div>
+    <div class="about-container">
+      <div class="about-mission">
+        <div class="mission-card">
+          <i class="fa-solid fa-bullseye"></i>
+          <h3>Our Mission</h3>
+          <p>To make premium fashion accessible to everyone across India. We believe style shouldn't cost a fortune — it should empower you.</p>
+        </div>
+        <div class="mission-card">
+          <i class="fa-solid fa-eye"></i>
+          <h3>Our Vision</h3>
+          <p>To become India's most loved fashion destination by 2030, known for quality, sustainability, and customer-first approach.</p>
+        </div>
+        <div class="mission-card">
+          <i class="fa-solid fa-heart"></i>
+          <h3>Our Values</h3>
+          <p>Authenticity, sustainability, inclusivity, and innovation drive everything we do. Fashion for every body, every story.</p>
+        </div>
+      </div>
+
+      <div class="about-story">
+        <div class="story-image">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800" alt="Our Store" />
+        </div>
+        <div class="story-content">
+          <h2>How It All Started</h2>
+          <p>Trendly began in a small Mumbai apartment in 2020 with a simple idea: <strong>fashion should be effortless, affordable, and fun.</strong></p>
+          <p>What started as a passion project between three friends has grown into a community of over <strong>2 lakh happy customers</strong> across 500+ cities in India.</p>
+          <p>Today, we curate the trendiest outfits for men and women, working directly with designers and manufacturers to bring you styles that are fresh, quality-checked, and priced fairly.</p>
+          <p>Every piece in our collection is handpicked. Every customer is family. That's the Trendly promise. 💖</p>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stat-card">
+          <div class="stat-number" data-target="200000">0</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="500">0</div>
+          <div class="stat-label">Cities Served</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="10000">0</div>
+          <div class="stat-label">Products Sold</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="98">0</div>
+          <div class="stat-label">% Satisfaction</div>
+        </div>
+      </div>
+
+      <div class="team-section">
+        <h2>Meet Our Team</h2>
+        <div class="team-grid">
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300" alt="CEO" />
+            <h4>Ananya Mehta</h4>
+            <p>Founder & CEO</p>
+          </div>
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300" alt="CTO" />
+            <h4>Rohan Kapoor</h4>
+            <p>Co-Founder & CTO</p>
+          </div>
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300" alt="Creative" />
+            <h4>Priya Iyer</h4>
+            <p>Head of Design</p>
+          </div>
+          <div class="team-card">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300" alt="Operations" />
+            <h4>Arjun Singh</h4>
+            <p>Head of Operations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT PAGE ============ -->
+  <section class="page-section" id="contactPage" style="display:none;">
+    <div class="contact-hero">
+      <h1>Get In Touch</h1>
+      <p>We'd love to hear from you. Reach out anytime!</p>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-info">
+        <h2>Contact Information</h2>
+        <div class="info-card">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>
+            <h4>Visit Us</h4>
+            <p>42, Fashion Street, Bandra West<br/>Mumbai, Maharashtra 400050<br/>India</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <i class="fa-solid fa-phone"></i>
+          <div>
+            <h4>Call Us</h4>
+            <p>+91 98765 43210<br/>+91 22 2648 9000</p>
+            <small>Mon-Sat: 10 AM - 8 PM</small>
+          </div>
+        </div>
+        <div class="info-card">
+          <i class="fa-solid fa-envelope"></i>
+          <div>
+            <h4>Email Us</h4>
+            <p>hello@trendly.in<br/>support@trendly.in</p>
+            <small>We reply within 24 hours</small>
+          </div>
+        </div>
+        <div class="info-card">
+          <i class="fa-solid fa-share-nodes"></i>
+          <div>
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-facebook"></i></a>
+              <a href="#"><i class="fa-brands fa-twitter"></i></a>
+              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-section">
+        <h2>Send Us a Message</h2>
+        <form id="contactForm" class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" id="contactName" placeholder="John Doe" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="contactEmail" placeholder="you@example.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="contactPhone" placeholder="+91 98765 43210" />
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <select id="contactSubject" required>
+                <option value="">Select a topic</option>
+                <option>General Inquiry</option>
+                <option>Order Issue</option>
+                <option>Product Question</option>
+                <option>Partnership</option>
+                <option>Feedback</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="contactMessage" rows="5" placeholder="Tell us how we can help..." required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ✅ WORKING MAP -->
+    <div class="map-section">
+      <h2><i class="fa-solid fa-map-location-dot"></i> Find Us on Map</h2>
+      <div class="map-container">
+        <iframe 
+          src="https://www.openstreetmap.org/export/embed.html?bbox=72.8290%2C19.0540%2C72.8490%2C19.0640&amp;layer=mapnik&amp;marker=19.0590%2C72.8390" 
+          style="border:0; width:100%; height:100%; border-radius:15px;" 
+          loading="lazy"
+          title="Trendly Store Location">
+        </iframe>
+      </div>
+      <p class="map-caption">📍 42, Fashion Street, Bandra West, Mumbai - 400050</p>
+      <a href="https://www.openstreetmap.org/?mlat=19.0590&mlon=72.8390#map=17/19.0590/72.8390" 
+         target="_blank" class="view-larger-map">
+        <i class="fa-solid fa-up-right-from-square"></i> View Larger Map
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ HELP CENTER PAGE ============ -->
+  <section class="page-section" id="helpPage" style="display:none;">
+    <div class="help-hero">
+      <h1>Help Center</h1>
+      <p>How can we help you today?</p>
+      <div class="help-search">
+        <input type="text" id="helpSearch" placeholder="Search for answers..." />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
+
+    <div class="help-container">
+      <div class="help-categories">
+        <div class="help-category" onclick="showHelpCategory('orders')">
+          <i class="fa-solid fa-box"></i>
+          <h3>Orders</h3>
+          <p>Track, modify, or cancel orders</p>
+        </div>
+        <div class="help-category" onclick="showHelpCategory('shipping')">
+          <i class="fa-solid fa-truck"></i>
+          <h3>Shipping</h3>
+          <p>Delivery times & tracking</p>
+        </div>
+        <div class="help-category" onclick="showHelpCategory('returns')">
+          <i class="fa-solid fa-rotate-left"></i>
+          <h3>Returns</h3>
+          <p>Easy 7-day return policy</p>
+        </div>
+        <div class="help-category" onclick="showHelpCategory('payments')">
+          <i class="fa-solid fa-credit-card"></i>
+          <h3>Payments</h3>
+          <p>Payment methods & issues</p>
+        </div>
+        <div class="help-category" onclick="showHelpCategory('account')">
+          <i class="fa-solid fa-user"></i>
+          <h3>Account</h3>
+          <p>Profile & settings help</p>
+        </div>
+        <div class="help-category" onclick="showHelpCategory('products')">
+          <i class="fa-solid fa-shirt"></i>
+          <h3>Products</h3>
+          <p>Sizing, care & quality</p>
+        </div>
+      </div>
+
+      <div class="help-featured">
+        <h2>Popular Articles</h2>
+        <div class="article-list">
+          <div class="article-item">
+            <i class="fa-solid fa-file-lines"></i>
+            <div>
+              <h4>How to track my order?</h4>
+              <p>Learn how to track your order in real-time using our app or website.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+          <div class="article-item">
+            <i class="fa-solid fa-file-lines"></i>
+            <div>
+              <h4>What is the return policy?</h4>
+              <p>We offer 7-day easy returns on all products. Here's how it works.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+          <div class="article-item">
+            <i class="fa-solid fa-file-lines"></i>
+            <div>
+              <h4>How to apply a coupon code?</h4>
+              <p>Step-by-step guide to using discount codes at checkout.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+          <div class="article-item">
+            <i class="fa-solid fa-file-lines"></i>
+            <div>
+              <h4>Payment failed but amount deducted?</h4>
+              <p>Don't worry! Refunds are processed within 5-7 business days.</p>
+            </div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-contact-box">
+        <h3>Still need help?</h3>
+        <p>Our support team is available 24/7 to assist you.</p>
+        <div class="help-contact-btns">
+          <button onclick="showPage('contact')"><i class="fa-solid fa-envelope"></i> Email Us</button>
+          <button onclick="window.location.href='tel:+919876543210'"><i class="fa-solid fa-phone"></i> Call Us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ PAGE ============ -->
+  <section class="page-section" id="faqPage" style="display:none;">
+    <div class="faq-hero">
+      <h1>Frequently Asked Questions</h1>
+      <p>Find quick answers to common questions</p>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-tabs">
+        <button class="faq-tab active" data-category="all">All</button>
+        <button class="faq-tab" data-category="general">General</button>
+        <button class="faq-tab" data-category="orders">Orders</button>
+        <button class="faq-tab" data-category="shipping">Shipping</button>
+        <button class="faq-tab" data-category="returns">Returns</button>
+        <button class="faq-tab" data-category="payments">Payments</button>
+      </div>
+
+      <div class="faq-list" id="faqList"></div>
+
+      <div class="faq-still">
+        <h3>Didn't find your answer?</h3>
+        <p>Contact our support team — we're here to help!</p>
+        <button class="cta-btn" onclick="showPage('contact')">
+          <i class="fa-solid fa-headset"></i> Contact Support
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS SIDEBAR ============ -->
+  <div class="sidebar" id="settingsSidebar">
+    <div class="sidebar-header">
+      <h2><i class="fa-solid fa-gear"></i> Settings</h2>
+      <button class="close-sidebar" onclick="closeSidebar('settingsSidebar')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="sidebar-content">
+      <div class="setting-group">
+        <h3>Appearance</h3>
+        <div class="theme-toggle">
+          <span>☀️ Light</span>
+          <label class="switch">
+            <input type="checkbox" id="themeToggle" />
+            <span class="slider"></span>
+          </label>
+          <span>🌙 Dark</span>
+        </div>
+      </div>
+      <div class="setting-group">
+        <h3>Account</h3>
+        <button class="sidebar-btn" onclick="openAuth()">
+          <i class="fa-solid fa-user"></i> Login / Register
+        </button>
+        <button class="sidebar-btn" onclick="openAddresses()">
+          <i class="fa-solid fa-location-dot"></i> Manage Addresses
+        </button>
+        <button class="sidebar-btn" onclick="openOrders()">
+          <i class="fa-solid fa-box"></i> My Orders
+        </button>
+      </div>
+      <div class="setting-group">
+        <h3>Preferences</h3>
+        <label class="checkbox-label">
+          <input type="checkbox" checked /> Email notifications
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" checked /> SMS alerts
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ AUTH MODAL ============ -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('authModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login', event)">Login</button>
+        <button class="auth-tab" onclick="switchAuthTab('register', event)">Register</button>
+      </div>
+      
+      <form id="loginForm" class="auth-form">
+        <h2>Welcome Back!</h2>
+        <div class="form-group">
+          <label>Email / Phone</label>
+          <input type="text" id="loginEmail" placeholder="demo@trendly.com" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="demo123" required />
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+        <p class="demo-info">Demo: demo@trendly.com / demo123</p>
+      </form>
+
+      <form id="registerForm" class="auth-form" style="display:none;">
+        <h2>Create Account</h2>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="regName" placeholder="Rahul Sharma" required />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="regEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="regPhone" placeholder="+91 98765 43210" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="regPassword" placeholder="Min 6 characters" required minlength="6" />
+        </div>
+        <button type="submit" class="submit-btn">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ ADDRESS MODAL ============ -->
+  <div class="modal" id="addressModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('addressModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h2><i class="fa-solid fa-location-dot"></i> My Addresses</h2>
+      <div id="addressList" class="address-list"></div>
+      <form id="addressForm" class="address-form">
+        <h3>Add New Address</h3>
+        <div class="form-row">
+          <input type="text" id="addrName" placeholder="Full Name" required />
+          <input type="tel" id="addrPhone" placeholder="Phone (+91...)" required />
+        </div>
+        <input type="text" id="addrStreet" placeholder="House No, Street, Landmark" required />
+        <div class="form-row">
+          <input type="text" id="addrCity" placeholder="City" required />
+          <select id="addrState" required>
+            <option value="">Select State</option>
+            <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+            <option>Delhi</option><option>Goa</option><option>Gujarat</option>
+            <option>Haryana</option><option>Jharkhand</option><option>Karnataka</option>
+            <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+            <option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+            <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <input type="text" id="addrZip" placeholder="PIN Code (6 digits)" maxlength="6" required />
+          <input type="text" id="addrCountry" value="India" readonly />
+        </div>
+        <button type="submit" class="submit-btn">Save Address</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ CHECKOUT MODAL ============ -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('checkoutModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h2><i class="fa-solid fa-credit-card"></i> Checkout</h2>
+      
+      <div class="checkout-section">
+        <h3>Shipping Address</h3>
+        <select id="checkoutAddress" class="address-select"></select>
+      </div>
+
+      <div class="checkout-section">
+        <h3>Order Summary</h3>
+        <div id="checkoutItems" class="checkout-items"></div>
+        <div class="checkout-total">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="checkoutSubtotal">₹0</span>
+          </div>
+          <div class="total-row">
+            <span>Shipping:</span>
+            <span id="checkoutShipping">₹99</span>
+          </div>
+          <div class="total-row">
+            <span>GST (18%):</span>
+            <span id="checkoutTax">₹0</span>
+          </div>
+          <div class="total-row grand-total">
+            <span>Total:</span>
+            <span id="checkoutGrandTotal">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-section">
+        <h3>Payment Method</h3>
+        <div class="payment-methods">
+          <label class="payment-option">
+            <input type="radio" name="payment" value="card" checked />
+            <i class="fa-solid fa-credit-card"></i> Card
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="upi" />
+            <i class="fa-solid fa-mobile-screen"></i> UPI
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="payment" value="cod" />
+            <i class="fa-solid fa-money-bill"></i> COD
+          </label>
+        </div>
+        
+        <form id="paymentForm" class="payment-form">
+          <div id="cardFields">
+            <input type="text" id="cardNumber" placeholder="Card Number (1234 5678 9012 3456)" maxlength="19" />
+            <div class="form-row">
+              <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" />
+              <input type="text" id="cardCVV" placeholder="CVV" maxlength="3" />
+            </div>
+            <input type="text" id="cardName" placeholder="Name on Card" />
+          </div>
+          <div id="upiFields" style="display:none;">
+            <input type="text" id="upiId" placeholder="yourname@upi" />
+          </div>
+          <button type="submit" class="submit-btn pay-btn">
+            <i class="fa-solid fa-lock"></i> Pay <span id="payAmount">₹0</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ORDERS MODAL ============ -->
+  <div class="modal" id="ordersModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('ordersModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h2><i class="fa-solid fa-box"></i> My Orders</h2>
+      <div id="ordersList" class="orders-list"></div>
+    </div>
+  </div>
+
+  <!-- ============ PRODUCT DETAIL MODAL ============ -->
+  <div class="modal" id="productDetailModal">
+    <div class="modal-content product-detail">
+      <button class="close-modal" onclick="closeModal('productDetailModal')">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="detail-layout">
+        <div class="detail-image">
+          <img id="detailImg" src="" alt="" />
+        </div>
+        <div class="detail-info">
+          <span class="category" id="detailCategory"></span>
+          <h2 id="detailName"></h2>
+          <div class="detail-rating">
+            <div class="stars" id="detailStars"></div>
+            <span class="review-count" id="detailReviewCount">(0 reviews)</span>
+          </div>
+          <div class="detail-price" id="detailPrice"></div>
+          <p class="detail-desc" id="detailDesc"></p>
+          <button class="add-btn" id="detailAddBtn">Add to Bag</button>
+        </div>
+      </div>
+
+      <div class="reviews-section">
+        <h3>⭐ Customer Reviews</h3>
+        <div id="reviewsList" class="reviews-list"></div>
+        
+        <div class="write-review" id="writeReviewSection" style="display:none;">
+          <h4>Write a Review</h4>
+          <div class="star-input" id="starInput">
+            <i class="fa-solid fa-star" data-rating="1"></i>
+            <i class="fa-solid fa-star" data-rating="2"></i>
+            <i class="fa-solid fa-star" data-rating="3"></i>
+            <i class="fa-solid fa-star" data-rating="4"></i>
+            <i class="fa-solid fa-star" data-rating="5"></i>
+          </div>
+          <input type="text" id="reviewTitle" placeholder="Review title" />
+          <textarea id="reviewText" placeholder="Share your experience..." rows="3"></textarea>
+          <button class="submit-btn" onclick="submitReview()">Submit Review</button>
+        </div>
+        
+        <div class="login-prompt" id="loginPrompt" style="display:none;">
+          <p>Please <a href="#" onclick="closeModal('productDetailModal');openAuth();">login</a> to write a review.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CART SIDEBAR ============ -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Your Bag</h2>
+      <button class="close-cart" id="closeCart"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="total">Total: <span id="cartTotal">₹0</span></div>
+      <button class="checkout-btn" onclick="openCheckout()">Checkout</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3><i class="fa-solid fa-fire"></i> Trendly</h3>
+        <p>Your premium fashion destination in India 🇮🇳</p>
+        <p style="margin-top:10px;font-size:0.9rem;">Crafting style, creating confidence.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Shop</h4>
+        <a href="#" onclick="showHomePage();return false;">All Products</a>
+        <a href="#" onclick="filterAndShow('women');return false;">Women</a>
+        <a href="#" onclick="filterAndShow('men');return false;">Men</a>
+        <a href="#" onclick="filterAndShow('trending');return false;">Trending</a>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <a href="#" onclick="showPage('about');return false;">About Us</a>
+        <a href="#" onclick="showPage('contact');return false;">Contact</a>
+        <a href="#" onclick="showPage('help');return false;">Help Center</a>
+        <a href="#" onclick="showPage('faq');return false;">FAQ</a>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <p style="margin-top:15px;font-size:0.9rem;">📞 +91 98765 43210</p>
+        <p style="font-size:0.9rem;">✉️ hello@trendly.in</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="copyright">© 2026 Trendly — Made with <i class="fa-solid fa-heart"></i> in India</p>
+      <div class="footer-links">
+        <a href="#" onclick="showPage('faq');return false;">Privacy Policy</a>
+        <a href="#" onclick="showPage('faq');return false;">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
