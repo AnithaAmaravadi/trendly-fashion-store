@@ -11,7 +11,7 @@ A complete, fully responsive e-commerce website for trending outfits for men & w
 ## 🌐 Live Demo
 **[Click here to visit the live website!](https://anithaamaravadi.github.io/trendly-fashion-store/)**
 
----  
+---          
   
 ## ✨ Features
 
