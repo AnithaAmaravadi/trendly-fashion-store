@@ -65,3 +65,12 @@ To test the checkout and review features, use these demo credentials:
 *(Or simply register a new account using the "Register" tab!)*
 
 ---
+
+
+
+
+
+
+
+
+
